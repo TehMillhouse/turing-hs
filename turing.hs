@@ -38,3 +38,22 @@ instance Show Automaton where
 -- This is for convenience
 emptyMachine :: Automaton
 emptyMachine = Automaton ["A"] ['a'] ' ' ['a'] (\x y -> ("A", N)) "A" ["A"] 
+
+
+main :: IO ()
+main = do
+	m <- loadConf "./conf"
+	putStrLn $ show $ m
+
+
+loadConf :: FilePath -> IO Automaton
+loadConf path = do
+	rawConf <- readFile path
+	let filteredConf = commentLess $ lines rawConf
+	let alphabet = read (head filteredConf) :: [Char]
+	return emptyMachine
+		where
+			commentLess [] = []
+			commentLess (x:xs)
+				| x == "" || (head x == '#') = commentLess xs
+				| otherwise 				 = x:(commentLess xs)
