@@ -1,0 +1,7 @@
+# alphabet
+['a','b']
+
+# ð : Alphabet x States -> (States, {L, N, R})
+     a       b
+A   (B,L)   (B,R)
+B   (A,N)   (A,N)
