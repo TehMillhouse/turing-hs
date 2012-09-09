@@ -17,6 +17,6 @@
 ["B"]
 
 # ð : Alphabet x States -> (States, {L, N, R})
-     a       b
-A   (A,L)   (B,R)
-B   (A,N)   (A,N)
+     a         b
+A   ('⎵',L,"A")   ('a',R,"B")
+B   ('b',N,"A")   ('a',N,"A")
