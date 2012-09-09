@@ -10,9 +10,7 @@
 # alphabet
 ['a','b']
 
-# blank symbol
-'_'
-
+# the blank symbol is '⎵' by default
 # the input alphabet is just the tape alphabet plus the blank symbol
 
 # accepting states
