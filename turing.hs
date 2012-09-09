@@ -13,7 +13,7 @@ data Automaton = Automaton {
 	tapeAlpha :: [Symbol],
 	blankSymbol :: Symbol,
 	inputAlpha :: [Symbol],
-	delta :: (State -> Symbol -> (State, Direction)),
+	delta :: (State -> Symbol -> (Symbol, Direction, State)),
 	startState :: State,
 	acceptStates :: [State]
 }
@@ -37,7 +37,7 @@ instance Show Automaton where
 
 -- This is for convenience
 emptyMachine :: Automaton
-emptyMachine = Automaton ["A"] ['a'] '⎵' ['a'] (\x y -> ("A", N)) "A" ["A"] 
+emptyMachine = Automaton ["A"] ['a'] '⎵' ['a'] (\x y -> ('⎵', N, "A")) "A" ["A"] 
 
 
 main :: IO ()
@@ -65,7 +65,7 @@ loadConf path = do
 				| otherwise 				 = x:(commentLess xs)
 
 -- Parses the function table of the transition function
-parseDelta :: [[String]] -> (State -> Symbol -> (State, Direction))
+parseDelta :: [[String]] -> (State -> Symbol -> (Symbol, Direction, State))
 parseDelta funcTable state sym =
 	let 
 		inputInd = case ind of
@@ -75,5 +75,5 @@ parseDelta funcTable state sym =
 		stateRow (x:xs) = if (head x) == state
 			then x
 			else stateRow xs
-	in read ((stateRow funcTable)!!(inputInd)) :: (State,Direction)
+	in read ((stateRow funcTable)!!(inputInd)) :: (Symbol,Direction,State)
 			where ind = (elemIndex sym ((map (!!0) funcTable)!!0))
