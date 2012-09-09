@@ -1,6 +1,6 @@
 -- Turing machine interpreter written in haskell
 import System.IO
-
+import Data.List
 
 type Symbol = Char
 type State = String
@@ -56,18 +56,25 @@ loadConf path = do
 	let blank = read (filteredConf!!2) :: Symbol
 	let iAlphabet = blank : tAlphabet
 	let acceptStates = read (filteredConf!!3) :: [State]
-	let delta = parseDelta $ drop 4 filteredConf
-	return $ Automaton states tAlphabet blank iAlphabet delta (states!!0) acceptStates
+	let delta = parseDelta $ map words $ drop 4 filteredConf
+--	putStrLn $ show $ map words $ drop 4 filteredConf
+	let tm = Automaton states tAlphabet blank iAlphabet delta (states!!0) acceptStates
+	return tm
 		where
 			commentLess [] = []
 			commentLess (x:xs)
 				| x == "" || (head x == '#') = commentLess xs
 				| otherwise 				 = x:(commentLess xs)
 
-
-parseDelta :: [String] -> (State -> Symbol -> (State, Direction))
-parseDelta funTable = (\x y -> ("A",N))
-
-
-
-
+parseDelta :: [[String]] -> (State -> Symbol -> (State, Direction))
+parseDelta funcTable state sym =
+	let 
+		inputInd = case ind of
+			Just val -> val + 1
+			Nothing -> error "Transistion function definition not exhaustive: input symbol not found"
+		stateRow [] = error "transition Function definition not exhaustive: state not found"
+		stateRow (x:xs) = if (head x) == state
+			then x
+			else stateRow xs
+	in read ((stateRow funcTable)!!(inputInd)) :: (State,Direction)
+			where ind = (elemIndex sym ((map (!!0) funcTable)!!0))
