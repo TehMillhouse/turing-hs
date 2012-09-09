@@ -4,17 +4,17 @@ import System.IO
 
 type Symbol = Char
 type State = String
-data Direction = L | R | N
+data Direction = L | R | N deriving (Read, Show)
 
 -- Formal definition of a Turing Machine as a 7-tuple
 -- (Q, Γ, _, Σ, ð, q0, F)
 data Automaton = Automaton { 
-	q :: [State],
-	tAlpha :: [Symbol],
-	blank :: Symbol,
-	iAlpha :: [Symbol],
+	states :: [State],
+	tapeAlpha :: [Symbol],
+	blankSymbol :: Symbol,
+	inputAlpha :: [Symbol],
 	delta :: (State -> Symbol -> (State, Direction)),
-	q0 :: State,
+	startState :: State,
 	acceptStates :: [State]
 }
 
@@ -45,7 +45,7 @@ main = do
 	m <- loadConf "./conf"
 	putStrLn $ show $ m
 
-
+-- Reads and parses config and returns an Automaton if the config was well-formed
 loadConf :: FilePath -> IO Automaton
 loadConf path = do
 	rawConf <- readFile path
