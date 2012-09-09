@@ -1,7 +1,24 @@
+# Formally, a TM  is a 7-tuple, and technically I could extract the 
+# information about the alphabet and the states from the function 
+# table, but this is more convenient
+
+
+# states
+# By convention, the starting state is the first state in this array
+["A","B"]
+
 # alphabet
 ['a','b']
 
+# blank symbol
+'_'
+
+# the input alphabet is just the tape alphabet plus the blank symbol
+
+# accepting states
+["B"]
+
 # ð : Alphabet x States -> (States, {L, N, R})
      a       b
-A   (B,L)   (B,R)
+A   (A,L)   (B,R)
 B   (A,N)   (A,N)
