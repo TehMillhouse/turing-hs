@@ -18,6 +18,12 @@ data Automaton = Automaton {
 	acceptStates :: [State]
 }
 
+-- Data type for the state of an operating turing machine
+data OpState = OpState {
+	tape :: [Symbol],
+	headPosition :: Int,
+	machineState :: State
+}
 
 -- We need to do this to satisfy the Show typeclass
 instance Show Automaton where
@@ -38,6 +44,10 @@ instance Show Automaton where
 -- This is for convenience
 emptyMachine :: Automaton
 emptyMachine = Automaton ["A"] ['a'] '⎵' ['a'] (\x y -> ('⎵', N, "A")) "A" ["A"] 
+
+-- the logical state of a turing machine is given by its 'state' and the tape's state
+step :: Automaton -> OpState -> Symbol -> OpState
+step machine state input = OpState [] 0 ""
 
 
 main :: IO ()
