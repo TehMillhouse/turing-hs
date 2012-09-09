@@ -50,10 +50,24 @@ loadConf :: FilePath -> IO Automaton
 loadConf path = do
 	rawConf <- readFile path
 	let filteredConf = commentLess $ lines rawConf
-	let alphabet = read (head filteredConf) :: [Char]
-	return emptyMachine
+
+	let states = read (filteredConf!!0) :: [State]
+	let tAlphabet = read (filteredConf!!1) :: [Symbol]
+	let blank = read (filteredConf!!2) :: Symbol
+	let iAlphabet = blank : tAlphabet
+	let acceptStates = read (filteredConf!!3) :: [State]
+	let delta = parseDelta $ drop 4 filteredConf
+	return $ Automaton states tAlphabet blank iAlphabet delta (states!!0) acceptStates
 		where
 			commentLess [] = []
 			commentLess (x:xs)
 				| x == "" || (head x == '#') = commentLess xs
 				| otherwise 				 = x:(commentLess xs)
+
+
+parseDelta :: [String] -> (State -> Symbol -> (State, Direction))
+parseDelta funTable = (\x y -> ("A",N))
+
+
+
+
