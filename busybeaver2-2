@@ -1,0 +1,20 @@
+# Sample turing machine config for 2-state, 2-symbol Busy Beaver.
+# This machine makes 6 steps, and writes a total of 4 '1's.
+
+# states
+# By convention, the starting state is the first state in this array
+["A","B","H"]
+
+# alphabet
+['⎵','1']
+
+# the blank symbol is '⎵' by default
+# the input alphabet is just the tape alphabet plus the blank symbol
+
+# accepting states
+["H"]
+
+# ð : Alphabet x States -> (States, {L, N, R})
+     ⎵             1
+A   ('1',R,"B")   ('1',L,"B")
+B   ('1',L,"A")   ('1',R,"H")
