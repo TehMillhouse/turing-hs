@@ -11,7 +11,7 @@
 ["A","B"]
 
 # alphabet
-['⎵','b']
+# ['⎵','b']
 
 # the blank symbol is '⎵' by default
 # the input alphabet is just the tape alphabet plus the blank symbol

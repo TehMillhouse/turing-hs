@@ -6,7 +6,7 @@
 ["A","B","H"]
 
 # alphabet
-['⎵','1']
+# ['⎵','1']
 
 # the blank symbol is '⎵' by default
 # the input alphabet is just the tape alphabet plus the blank symbol

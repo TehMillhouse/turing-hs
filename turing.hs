@@ -141,10 +141,10 @@ loadConf path = do
 	let filteredConf = commentLess $ lines rawConf
 
 	let states = read (filteredConf!!0) :: [State]
-	let tAlphabet = read (filteredConf!!1) :: [Symbol]
+	let tAlphabet = read (filteredConf!!2) :: [Symbol]
 	let iAlphabet = blankSym : tAlphabet
-	let acceptStates = read (filteredConf!!2) :: [State]
-	let delta = parseDelta $ map words $ drop 3 filteredConf
+	let acceptStates = read (filteredConf!!1) :: [State]
+	let delta = parseDelta $ map words $ drop 2 filteredConf
 	let tm = Automaton states tAlphabet blankSym iAlphabet delta (states!!0) acceptStates
 	return tm
 		where
