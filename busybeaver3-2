@@ -19,5 +19,5 @@
 A   ('1',R,"B")   ('1',R,"H")
 B   ('⎵',R,"C")   ('1',R,"B")
 C   ('1',L,"C")   ('1',L,"A")
-# function definition has to be *complete*
-H   ('⎵',N,"H")   ('1',N,"H")
+# function definition has to be complete, but accepting states don't have
+# to be documented
