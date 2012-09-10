@@ -120,6 +120,7 @@ loadConf path = do
 
 
 -- Parses the function table of the transition function
+-- The expected input is a list of rows, separated into words
 parseDelta :: [[String]] -> (State -> Symbol -> (Symbol, Direction, State))
 parseDelta funcTable state sym =
 	let
@@ -132,6 +133,6 @@ parseDelta funcTable state sym =
 			then x
 			else stateRow xs
 	in read ((stateRow funcTable)!!(inputInd)) :: (Symbol,Direction,State)
-			where ind = (elemIndex sym ((map (!!0) funcTable)!!0))
+			where ind = elemIndex sym (map head (funcTable!!0))
 
 
