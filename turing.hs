@@ -57,6 +57,15 @@ instance Show Automaton where
 		++ ")")
 
 
+first :: (a, b, c) -> a
+first (a, _, _) = a
+
+second :: (a, b, c) -> b
+second (_, b, _) = b
+
+third :: (a, b, c) -> c
+third (_, _, c) = c
+
 -- This is for convenience
 emptyMachine :: Automaton
 emptyMachine = Automaton ["A"] ['a'] blankSym ['a'] (\x y -> (blankSym, N, "A")) "A" ["A"]
