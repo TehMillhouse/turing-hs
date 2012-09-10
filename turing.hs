@@ -1,5 +1,6 @@
 -- Turing machine interpreter written in haskell
 import System.IO
+import System.Environment
 import Data.List
 
 type Symbol = Char
@@ -53,8 +54,12 @@ step machine state input = OpState [] 0 ""
 
 main :: IO ()
 main = do
-	m <- loadConf "./conf"
-	putStrLn $ show $ m
+	args <- getArgs
+	let conf = if (length args) /= 0
+		then args!!0
+		else "./conf"
+	machine <- loadConf conf
+	putStrLn $ show $ machine
 
 -- Reads and parses config and returns an Automaton if the config was well-formed
 loadConf :: FilePath -> IO Automaton
