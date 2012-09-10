@@ -1,14 +1,17 @@
-# Formally, a TM  is a 7-tuple, and technically I could extract the 
+# Formally, a TM  is a 7-tuple, and technically we could extract the 
 # information about the alphabet and the states from the function 
 # table, but this is more convenient
 
+# sample config for a turing machine specification
+# This file serves the sole purpose of explaining the file format.
+# The Turing machine represented by this is useless, and will loop.
 
 # states
 # By convention, the starting state is the first state in this array
 ["A","B"]
 
 # alphabet
-['a','b']
+['⎵','b']
 
 # the blank symbol is '⎵' by default
 # the input alphabet is just the tape alphabet plus the blank symbol
@@ -17,6 +20,6 @@
 ["B"]
 
 # ð : Alphabet x States -> (States, {L, N, R})
-     a         b
-A   ('⎵',L,"A")   ('a',R,"B")
-B   ('b',N,"A")   ('a',N,"A")
+     ⎵             b
+A   ('⎵',L,"A")   ('⎵',R,"B")
+B   ('b',N,"A")   ('⎵',N,"A")

@@ -6,7 +6,7 @@
 ["A","B","C","H"]
 
 # alphabet
-['0','1']
+['⎵','1']
 
 # the blank symbol is '⎵' by default
 # the input alphabet is just the tape alphabet plus the blank symbol
@@ -15,9 +15,9 @@
 ["H"]
 
 # ð : Alphabet x States -> (States, {L, N, R})
-     0             1
+     ⎵             1
 A   ('1',R,"B")   ('1',R,"H")
-B   ('0',R,"C")   ('1',R,"B")
+B   ('⎵',R,"C")   ('1',R,"B")
 C   ('1',L,"C")   ('1',L,"A")
 # function definition has to be *complete*
-H   ('0',N,"H")   ('1',N,"H")
+H   ('⎵',N,"H")   ('1',N,"H")
