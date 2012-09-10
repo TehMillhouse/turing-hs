@@ -25,7 +25,20 @@ data OpState = OpState {
 	tape :: [Symbol],
 	headPosition :: Int,
 	machineState :: State
-}
+} deriving (Read)
+
+instance Show OpState where
+	show (OpState tape headPosition machineState) =
+		'╭'
+		: (take headPosition spaces)
+		++ machineState
+		++ (take ((length tape) - (length machineState) - (headPosition)) spaces)
+		++ "╮\n╰"
+		++ tape
+		-- We may have to fill up because of long state names
+		++ (take (headPosition + (length machineState) - (length tape)) spaces)
+		++ "╯"
+		where spaces = repeat ' '
 
 -- We need to do this to satisfy the Show typeclass
 instance Show Automaton where
@@ -55,6 +68,7 @@ step machine state input = OpState [] 0 ""
 main :: IO ()
 main = do
 	args <- getArgs
+	-- if no parameter is given, we look for "conf" in the current directory
 	let conf = if (length args) /= 0
 		then args!!0
 		else "./conf"
@@ -80,6 +94,7 @@ loadConf path = do
 				| x == "" || (head x == '#') = commentLess xs
 				| otherwise 				 = x:(commentLess xs)
 
+
 -- Parses the function table of the transition function
 parseDelta :: [[String]] -> (State -> Symbol -> (Symbol, Direction, State))
 parseDelta funcTable state sym =
@@ -87,9 +102,12 @@ parseDelta funcTable state sym =
 		inputInd = case ind of
 			Just val -> val + 1
 			Nothing -> error "Transistion function definition not exhaustive: input symbol not found"
+		-- Since we don't know which states are halting states, we can't just jump into one here.
 		stateRow [] = error "transition Function definition not exhaustive: state not found"
 		stateRow (x:xs) = if (head x) == state
 			then x
 			else stateRow xs
 	in read ((stateRow funcTable)!!(inputInd)) :: (Symbol,Direction,State)
 			where ind = (elemIndex sym ((map (!!0) funcTable)!!0))
+
+
