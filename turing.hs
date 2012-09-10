@@ -10,7 +10,7 @@ blankSym = '⎵'
 
 -- Formal definition of a Turing Machine as a 7-tuple
 -- (Q, Γ, ⎵, Σ, ð, q0, F)
-data Automaton = Automaton { 
+data Automaton = Automaton {
 	states :: [State],
 	tapeAlpha :: [Symbol],
 	blankSymbol :: Symbol,
@@ -71,9 +71,21 @@ emptyMachine :: Automaton
 emptyMachine = Automaton ["A"] ['a'] blankSym ['a'] (\x y -> (blankSym, N, "A")) "A" ["A"]
 
 -- the logical state of a turing machine is given by its 'state' and the tape's state
--- TODO
-step :: Automaton -> OpState -> Symbol -> OpState
-step machine state input = OpState [] 0 ""
+step :: Automaton -> OpState -> Maybe OpState
+step machine state =
+	if (machineState state) `elem` (acceptStates machine)
+		-- We're in a halting state, there's nowhere to go
+		then Nothing
+		else Just (handleState $ handleMovement $ handleOutput state)
+			where
+				handleOutput s = writeSymbol (first next) s
+				handleMovement s = case second next of
+					L -> moveLeft s
+					N -> s
+					R -> moveRight s
+				handleState s = OpState (tape s) (headPosition s) (third next)
+				next = (delta machine) (machineState state) ((tape state)!!(headPosition state))
+	
 	
 
 moveLeft :: OpState -> OpState
@@ -105,8 +117,22 @@ main = do
 	let conf = if (length args) /= 0
 		then args!!0
 		else "./conf"
+	let input = if (length args) < 2
+		then [blankSym]
+		else args!!1
 	machine <- loadConf conf
-	putStrLn $ show $ machine
+	let startConfig = OpState input 0 (startState machine)
+	putStrLn $ show startConfig
+	simulateMachine machine startConfig
+
+-- "Inner run loop", if you will
+simulateMachine :: Automaton -> OpState -> IO ()
+simulateMachine machine state = do
+	case step machine state of
+		Nothing       -> return ()
+		Just newState -> do
+			putStrLn $ show newState
+			simulateMachine machine newState
 
 -- Reads and parses config and returns an Automaton if the config was well-formed
 loadConf :: FilePath -> IO Automaton
