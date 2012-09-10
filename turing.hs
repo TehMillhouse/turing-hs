@@ -5,6 +5,7 @@ import Data.List
 type Symbol = Char
 type State = String
 data Direction = L | R | N deriving (Read, Show)
+blankSym = '⎵'
 
 -- Formal definition of a Turing Machine as a 7-tuple
 -- (Q, Γ, ⎵, Σ, ð, q0, F)
@@ -43,7 +44,7 @@ instance Show Automaton where
 
 -- This is for convenience
 emptyMachine :: Automaton
-emptyMachine = Automaton ["A"] ['a'] '⎵' ['a'] (\x y -> ('⎵', N, "A")) "A" ["A"] 
+emptyMachine = Automaton ["A"] ['a'] blankSym ['a'] (\x y -> (blankSym, N, "A")) "A" ["A"] 
 
 -- the logical state of a turing machine is given by its 'state' and the tape's state
 step :: Automaton -> OpState -> Symbol -> OpState
@@ -63,10 +64,10 @@ loadConf path = do
 
 	let states = read (filteredConf!!0) :: [State]
 	let tAlphabet = read (filteredConf!!1) :: [Symbol]
-	let iAlphabet = '⎵' : tAlphabet
+	let iAlphabet = blankSym : tAlphabet
 	let acceptStates = read (filteredConf!!2) :: [State]
 	let delta = parseDelta $ map words $ drop 3 filteredConf
-	let tm = Automaton states tAlphabet '⎵' iAlphabet delta (states!!0) acceptStates
+	let tm = Automaton states tAlphabet blankSym iAlphabet delta (states!!0) acceptStates
 	return tm
 		where
 			commentLess [] = []
