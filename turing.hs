@@ -42,27 +42,30 @@ instance Show OpState where
 
 -- We need to do this to satisfy the Show typeclass
 instance Show Automaton where
-	show (Automaton q tAlpha blank iAlpha _ q0 acceptStates) = 
-		"(" 
-		++ show q 
-		++ ", " 
-		++ show tAlpha 
-		++ ", " 
+	show (Automaton q tAlpha blank iAlpha _ q0 acceptStates) =
+		"("
+		++ show q
+		++ ", "
+		++ show tAlpha
+		++ ", "
 		++ (blank
-		: ", " 
-		++ iAlpha 
-		++ ", ð, " 
-		++ show acceptStates 
+		: ", "
+		++ iAlpha
+		-- We really don't want to dump functions to stdout
+		++ ", ð, "
+		++ show acceptStates
 		++ ")")
 
 
 -- This is for convenience
 emptyMachine :: Automaton
-emptyMachine = Automaton ["A"] ['a'] blankSym ['a'] (\x y -> (blankSym, N, "A")) "A" ["A"] 
+emptyMachine = Automaton ["A"] ['a'] blankSym ['a'] (\x y -> (blankSym, N, "A")) "A" ["A"]
 
 -- the logical state of a turing machine is given by its 'state' and the tape's state
+-- TODO
 step :: Automaton -> OpState -> Symbol -> OpState
 step machine state input = OpState [] 0 ""
+	
 
 
 main :: IO ()
@@ -98,7 +101,7 @@ loadConf path = do
 -- Parses the function table of the transition function
 parseDelta :: [[String]] -> (State -> Symbol -> (Symbol, Direction, State))
 parseDelta funcTable state sym =
-	let 
+	let
 		inputInd = case ind of
 			Just val -> val + 1
 			Nothing -> error "Transistion function definition not exhaustive: input symbol not found"
