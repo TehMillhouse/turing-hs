@@ -67,6 +67,27 @@ step :: Automaton -> OpState -> Symbol -> OpState
 step machine state input = OpState [] 0 ""
 	
 
+moveLeft :: OpState -> OpState
+moveLeft (OpState tape headPosition mState) =
+	if headPosition == 0
+		then OpState (blankSym:tape) 0 mState
+		else OpState tape (headPosition - 1) mState
+
+
+moveRight :: OpState -> OpState
+moveRight (OpState tape headPosition mState) =
+	OpState paddedTape (headPosition + 1) mState
+		where paddedTape = if headPosition == length tape - 1
+			then (tape ++ [blankSym])
+			else tape
+
+
+writeSymbol :: Symbol -> OpState -> OpState
+writeSymbol sym (OpState tape headPosition mState) =
+	OpState newTape headPosition mState
+		where newTape = (take headPosition tape)
+			++ [sym]
+			++ (drop (headPosition + 1) tape)
 
 main :: IO ()
 main = do
