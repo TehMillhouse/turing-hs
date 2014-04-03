@@ -8,23 +8,25 @@ Turing Machine descriptions are passed to the program in the form of a config fi
 The second parameter gives the initial input on which to run the Turing Machine. This is the blank symbol ('⎵') by default.
 
 Here, have an example:
->	~/turing-hs % ./turing ./busybeaver3-2 "⎵1"  
->	╭A ╮  
->	╰⎵1╯  
->	╭ B╮  
->	╰11╯  
->	╭  B╮  
->	╰11⎵╯  
->	╭   C╮  
->	╰11⎵⎵╯  
->	╭  C ╮  
->	╰11⎵1╯  
->	╭ C  ╮  
->	╰1111╯  
->	╭A   ╮  
->	╰1111╯  
->	╭ H  ╮  
->	╰1111╯  
+```
+~/turing-hs % ./turing ./busybeaver3-2 "⎵1"  
+╭A ╮  
+╰⎵1╯  
+╭ B╮  
+╰11╯  
+╭  B╮  
+╰11⎵╯  
+╭   C╮  
+╰11⎵⎵╯  
+╭  C ╮  
+╰11⎵1╯  
+╭ C  ╮  
+╰1111╯  
+╭A   ╮  
+╰1111╯  
+╭ H  ╮  
+╰1111╯  
+```
 
 Caveats
 -------
